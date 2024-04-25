@@ -1,3 +1,19 @@
+body {
+  max-width: 500px;
+  margin: 0 auto;
+  height: 100vh;
+  overflow-y: scroll;
+}
+#root {
+  min-height: 100vh;
+  border-left: 1px solid #282c34;
+  border-right: 1px solid #282c34;
+  scrollbar-width: none;
+}
+#root::-webkit-scrollbar {
+  display: none;
+}
+
 .App {
   text-align: center;
 }
