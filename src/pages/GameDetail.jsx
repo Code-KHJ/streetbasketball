@@ -26,7 +26,9 @@ const GameDetail = () => {
     people: "",
     info: "",
     location: "",
+    buildingname: "",
     member: { member: [] },
+    status: "",
   });
 
   useEffect(() => {
@@ -51,10 +53,10 @@ const GameDetail = () => {
     }
   }, [supabase]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const isUserMember = values.member.member.includes(user.id);
-  const today = new Date();
-  const scheduleDate = new Date(values.schedule);
-  scheduleDate.setHours(scheduleDate.getHours() - 1);
 
   const joinGame = async () => {
     values.member.member.push(user.id);
@@ -110,16 +112,6 @@ const GameDetail = () => {
                 {values.member.member.length}/{values.people}명
               </span>
             </div>
-            <div className={styles.info}>
-              <label />
-              <textarea
-                name="info"
-                value={values.info}
-                rows={4}
-                readOnly
-                disabled
-              />
-            </div>
             <div className={styles.location}>
               <label />
               <input
@@ -130,14 +122,29 @@ const GameDetail = () => {
                 readOnly
               />
             </div>
+            <DaumMap
+              searchPlace={{
+                location: values.location,
+                buildingName: values.buildingname,
+              }}
+            />
+            <div className={styles.info}>
+              <label />
+              <textarea
+                name="info"
+                value={values.info}
+                rows={4}
+                readOnly
+                disabled
+              />
+            </div>
           </div>
-          <DaumMap searchPlace={values.location} />
         </section>
-        {today > scheduleDate ? (
+        {values.status === "closed" ? (
           <button className={styles.btn_join} disabled>
             모집종료
           </button>
-        ) : values.member.member.length >= values.people ? (
+        ) : values.status === "done" ? (
           <button className={styles.btn_join} disabled>
             모집완료
           </button>

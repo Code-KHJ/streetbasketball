@@ -16,6 +16,7 @@ const CreateGame = () => {
     people: "",
     info: "",
     location: "",
+    buildingname: "",
     member: { member: [] },
   });
   const handleChange = (e) => {
@@ -31,7 +32,6 @@ const CreateGame = () => {
       member: { member: [user.id] },
     });
   }, [user]);
-  console.log(values);
   const selectVersus = (e) => {
     document.querySelectorAll("#versus button").forEach((btn) => {
       btn.classList.remove(styles.on);
@@ -53,8 +53,13 @@ const CreateGame = () => {
   const setAddress = () => {
     new window.daum.Postcode({
       oncomplete: function (data) {
-        const addr = data.address; // 최종 주소 변수
-        setValues({ ...values, location: addr });
+        const addr = data; // 최종 주소 변수
+        console.log(data.address);
+        setValues({
+          ...values,
+          location: addr.address,
+          buildingname: addr.buildingName,
+        });
       },
     }).open();
   };
@@ -78,8 +83,9 @@ const CreateGame = () => {
         console.error("Error", error.message);
         alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
       } else {
+        const gameId = data[0].id;
         alert("매치가 등록되었습니다.");
-        window.location.href = "/";
+        window.location.href = `/detail?id=${gameId}`;
       }
     } catch (error) {
       console.error("Error", error.message);
@@ -147,16 +153,6 @@ const CreateGame = () => {
                 명
               </span>
             </div>
-            <div className={styles.info}>
-              <label />
-              <textarea
-                name="info"
-                value={values.info}
-                onChange={handleChange}
-                rows={4}
-                required
-              />
-            </div>
             <div className={styles.location}>
               <label />
               <input
@@ -170,8 +166,23 @@ const CreateGame = () => {
                 주소 검색
               </button>
             </div>
+            <DaumMap
+              searchPlace={{
+                location: values.location,
+                buildingName: values.buildingname,
+              }}
+            />
+            <div className={styles.info}>
+              <label />
+              <textarea
+                name="info"
+                value={values.info}
+                onChange={handleChange}
+                rows={4}
+                required
+              />
+            </div>
           </form>
-          <DaumMap searchPlace={values.location} />
         </section>
         <button
           className={styles.btn_create}
