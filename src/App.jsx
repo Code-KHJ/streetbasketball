@@ -1,18 +1,31 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-
-import "./App.css";
-import Header from "@components/common/Header";
-import CreateGame from "@pages/CreateGame";
-import GameList from "./pages/GameList";
-import GameDetail from "./pages/GameDetail";
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import './App.css';
+import Header from '@components/common/Header';
+import CreateGame from '@pages/CreateGame';
+import GameList from './pages/GameList';
+import GameDetail from './pages/GameDetail';
+import { useUser } from '@/contexts/UserContext';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const { user } = useUser();
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    if (user.id == null) {
+      setIsLogin(false);
+    } else {
+      setIsLogin(true);
+    }
+  }, [user]);
   return (
     <BrowserRouter>
       <Header />
       <Routes>
         <Route path="/" element={<GameList />}></Route>
-        <Route path="/create" element={<CreateGame />}></Route>
+        <Route
+          path="/create"
+          element={user.id == null ? <Navigate to="/" /> : <CreateGame />}
+        ></Route>
         <Route path="/detail" element={<GameDetail />}></Route>
       </Routes>
     </BrowserRouter>

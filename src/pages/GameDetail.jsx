@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import useSupabase from "@/apis/useSupabase";
-import { useUser } from "@/contexts/UserContext";
-import styles from "./pages.module.scss";
-import DaumMap from "@/components/utils/DaumMap";
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useSupabase from '@/apis/useSupabase';
+import { useUser } from '@/contexts/UserContext';
+import styles from './pages.module.scss';
+import DaumMap from '@/components/utils/DaumMap';
+import { Button, TextField } from '@mui/material';
 
 const GameDetail = () => {
   const supabase = useSupabase();
@@ -11,24 +12,24 @@ const GameDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryString = location.search;
-  const keyValuePairs = queryString.substring(1).split("&");
+  const keyValuePairs = queryString.substring(1).split('&');
   const keyValueObject = {};
   keyValuePairs.forEach((pair) => {
-    const [key, value] = pair.split("=");
+    const [key, value] = pair.split('=');
     keyValueObject[key] = value;
   });
 
   const [values, setValues] = useState({
-    organizer: "",
-    title: "",
-    schedule: "",
-    versus: "",
-    people: "",
-    info: "",
-    location: "",
-    buildingname: "",
+    organizer: '',
+    title: '',
+    schedule: '',
+    versus: '',
+    people: '',
+    info: '',
+    location: '',
+    buildingname: '',
     member: { member: [] },
-    status: "",
+    status: '',
   });
 
   useEffect(() => {
@@ -36,17 +37,17 @@ const GameDetail = () => {
       const getGame = async () => {
         try {
           const { data: Games, error } = await supabase
-            .from("Games")
-            .select("*")
-            .eq("id", keyValueObject["id"]);
+            .from('Games')
+            .select('*')
+            .eq('id', keyValueObject['id']);
 
           if (Games.length < 1) {
-            navigate("/error");
+            navigate('/error');
           }
           setValues(Games[0]);
         } catch (error) {
-          console.error("Error", error.message);
-          alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+          console.error('Error', error.message);
+          alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
         }
       };
       getGame();
@@ -62,21 +63,21 @@ const GameDetail = () => {
     values.member.member.push(user.id);
     try {
       const { data, error } = await supabase
-        .from("Games")
+        .from('Games')
         .update({ member: values.member })
-        .eq("id", keyValueObject["id"])
+        .eq('id', keyValueObject['id'])
         .select();
 
       if (error) {
-        console.error("Error", error.message);
-        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        console.error('Error', error.message);
+        alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
       } else {
-        alert("신청되었습니다.");
+        alert('신청되었습니다.');
         window.location.reload();
       }
     } catch (error) {
-      console.error("Error", error.message);
-      alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      console.error('Error', error.message);
+      alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
     }
     console.log(values.member.member);
   };
@@ -102,9 +103,9 @@ const GameDetail = () => {
             </div>
             <div id="versus" className={styles.versus}>
               <label />
-              <button className={styles.on} type="button" disabled readOnly>
+              <Button className={styles.on} type="button" disabled readOnly>
                 {values.versus}
-              </button>
+              </Button>
             </div>
             <div className={styles.people}>
               <label />
@@ -130,21 +131,23 @@ const GameDetail = () => {
             />
             <div className={styles.info}>
               <label />
-              <textarea
+              <TextField
                 name="info"
+                style={{ flexGrow: '1' }}
                 value={values.info}
+                multiline
                 rows={4}
                 readOnly
                 disabled
-              />
+              ></TextField>
             </div>
           </div>
         </section>
-        {values.status === "closed" ? (
+        {values.status === 'closed' ? (
           <button className={styles.btn_join} disabled>
             모집종료
           </button>
-        ) : values.status === "done" ? (
+        ) : values.status === 'done' ? (
           <button className={styles.btn_join} disabled>
             모집완료
           </button>

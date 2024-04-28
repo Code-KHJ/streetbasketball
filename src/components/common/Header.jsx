@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import styles from "./common.module.scss";
-import { Link, redirect, useLocation } from "react-router-dom";
-import useSupabase from "@/apis/useSupabase";
-import { useUser } from "@/contexts/UserContext";
+import React, { useEffect } from 'react';
+import styles from './common.module.scss';
+import { Link, redirect, useLocation } from 'react-router-dom';
+import useSupabase from '@/apis/useSupabase';
+import { useUser } from '@/contexts/UserContext';
 
 const Header = () => {
   const supabase = useSupabase();
@@ -11,7 +11,7 @@ const Header = () => {
   const url = location.pathname + location.search;
   const signInWithKakao = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "kakao",
+      provider: 'kakao',
       options: {
         redirectTo: process.env.REACT_APP_URL + url,
       },

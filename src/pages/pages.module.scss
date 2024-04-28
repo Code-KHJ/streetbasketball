@@ -10,7 +10,7 @@
     }
     form {
       margin-top: 50px;
-      div {
+      & > div {
         display: flex;
         gap: 20px;
         margin-bottom: 50px;
@@ -26,8 +26,7 @@
           border: none;
           border-bottom: 1px solid #aaa;
         }
-        input:focus,
-        textarea:focus {
+        input:focus {
           outline: none;
           border-bottom: 1px solid #6269f5;
         }
@@ -41,18 +40,18 @@
       }
       .schedule {
         label {
-          background: url("../assets/schedule.png") no-repeat center/95%;
+          background: url('../assets/schedule.png') no-repeat center/95%;
         }
       }
       .versus {
         label {
-          background: url("../assets/versus.png") no-repeat center/95%;
+          background: url('../assets/versus.png') no-repeat center/95%;
         }
         button {
-          padding: 0 20px;
+          text-transform: none;
           background-color: transparent;
           border: 1px solid #aaa;
-          border-radius: 5px;
+          color: #000;
           cursor: pointer;
         }
         .on {
@@ -62,7 +61,7 @@
       }
       .people {
         label {
-          background: url("../assets/people.png") no-repeat center/95%;
+          background: url('../assets/people.png') no-repeat center/95%;
         }
         input {
           flex-grow: 0;
@@ -72,18 +71,15 @@
       }
       .info {
         label {
-          background: url("../assets/info-text.png") no-repeat center/95%;
+          background: url('../assets/info-text.png') no-repeat center/95%;
         }
         textarea {
-          border: 1px solid #aaa;
-          resize: none;
-          height: 150px;
-          padding: 20px;
+          border: 0;
         }
       }
       .location {
         label {
-          background: url("../assets/location.png") no-repeat center/95%;
+          background: url('../assets/location.png') no-repeat center/95%;
         }
       }
     }
@@ -120,8 +116,7 @@
           border: none;
           border-bottom: 1px solid #aaa;
         }
-        input:disabled,
-        textarea:disabled {
+        input:disabled {
           background-color: #fff;
         }
         span {
@@ -137,19 +132,18 @@
       }
       .schedule {
         label {
-          background: url("../assets/schedule.png") no-repeat center/95%;
+          background: url('../assets/schedule.png') no-repeat center/95%;
         }
       }
       .versus {
         label {
-          background: url("../assets/versus.png") no-repeat center/95%;
+          background: url('../assets/versus.png') no-repeat center/95%;
         }
         button {
-          padding: 0 20px;
+          text-transform: none;
           background-color: transparent;
           border: 1px solid #aaa;
-          border-radius: 5px;
-          cursor: pointer;
+          color: #000;
         }
         .on {
           background-color: #6269f5;
@@ -158,7 +152,7 @@
       }
       .people {
         label {
-          background: url("../assets/people.png") no-repeat center/95%;
+          background: url('../assets/people.png') no-repeat center/95%;
         }
         input {
           flex-grow: 0;
@@ -168,18 +162,15 @@
       }
       .info {
         label {
-          background: url("../assets/info-text.png") no-repeat center/95%;
+          background: url('../assets/info-text.png') no-repeat center/95%;
         }
         textarea {
-          border: 1px solid #aaa;
-          resize: none;
-          height: 150px;
-          padding: 20px;
+          border: 0;
         }
       }
       .location {
         label {
-          background: url("../assets/location.png") no-repeat center/95%;
+          background: url('../assets/location.png') no-repeat center/95%;
         }
       }
     }
@@ -196,7 +187,9 @@
 }
 
 .game_list {
+  position: relative;
   padding: 30px;
+  min-height: calc(100vh - 120px);
   .introduce {
     height: 150px;
   }
@@ -214,7 +207,7 @@
         li {
           display: flex;
           flex-direction: column;
-          gap: 8px;
+          gap: 10px;
           margin-bottom: 10px;
           padding: 15px;
           border: 1px solid #f6f7f7;
@@ -254,9 +247,27 @@
             flex-wrap: wrap;
             .schedule {
               font-weight: 700;
-              margin-right: 20px;
+              img {
+                width: 16px;
+                height: 16px;
+                vertical-align: middle;
+                margin-right: 5px;
+              }
             }
             .location {
+              img {
+                width: 16px;
+                height: 16px;
+                vertical-align: middle;
+                margin-right: 5px;
+              }
+            }
+          }
+          .members {
+            img {
+              vertical-align: middle;
+              width: 16px;
+              height: 16px;
             }
           }
         }

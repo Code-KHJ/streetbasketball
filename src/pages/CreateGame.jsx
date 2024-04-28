@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
-import styles from "./pages.module.scss";
-import DaumMap from "@/components/utils/DaumMap";
-import useSupabase from "@/apis/useSupabase";
-import { useUser } from "@/contexts/UserContext";
+import React, { useEffect, useState } from 'react';
+import styles from './pages.module.scss';
+import DaumMap from '@/components/utils/DaumMap';
+import useSupabase from '@/apis/useSupabase';
+import { useUser } from '@/contexts/UserContext';
+import { Button, ButtonGroup, TextField } from '@mui/material';
 
 const CreateGame = () => {
   const supabase = useSupabase();
@@ -10,13 +11,13 @@ const CreateGame = () => {
 
   const [values, setValues] = useState({
     organizer: user.id,
-    title: "",
-    schedule: "",
-    versus: "",
-    people: "",
-    info: "",
-    location: "",
-    buildingname: "",
+    title: '',
+    schedule: '',
+    versus: '',
+    people: '',
+    info: '',
+    location: '',
+    buildingname: '',
     member: { member: [] },
   });
   const handleChange = (e) => {
@@ -33,7 +34,7 @@ const CreateGame = () => {
     });
   }, [user]);
   const selectVersus = (e) => {
-    document.querySelectorAll("#versus button").forEach((btn) => {
+    document.querySelectorAll('#versus button').forEach((btn) => {
       btn.classList.remove(styles.on);
     });
     e.target.classList.add(styles.on);
@@ -43,7 +44,7 @@ const CreateGame = () => {
     });
   };
 
-  const [minDateTime, setMinDateTime] = useState("");
+  const [minDateTime, setMinDateTime] = useState('');
   useEffect(() => {
     const now = new Date();
     const nowISO = now.toISOString().slice(0, 16);
@@ -67,7 +68,7 @@ const CreateGame = () => {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   useEffect(() => {
     const isSubmit = Object.values(values).every(
-      (value) => value !== null && value !== ""
+      (value) => value !== null && value !== ''
     );
     setIsSubmitDisabled(!isSubmit);
   }, [values]);
@@ -75,21 +76,21 @@ const CreateGame = () => {
   const createGame = async () => {
     try {
       const { data, error } = await supabase
-        .from("Games")
+        .from('Games')
         .insert([values])
         .select();
 
       if (error) {
-        console.error("Error", error.message);
-        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        console.error('Error', error.message);
+        alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
       } else {
         const gameId = data[0].id;
-        alert("매치가 등록되었습니다.");
+        alert('매치가 등록되었습니다.');
         window.location.href = `/detail?id=${gameId}`;
       }
     } catch (error) {
-      console.error("Error", error.message);
-      alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      console.error('Error', error.message);
+      alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
     }
   };
 
@@ -123,20 +124,22 @@ const CreateGame = () => {
             </div>
             <div id="versus" className={styles.versus}>
               <label />
-              <button
-                className={styles.on}
-                type="button"
-                value="3vs3"
-                onClick={selectVersus}
-              >
-                3 vs 3
-              </button>
-              <button type="button" value="4vs4" onClick={selectVersus}>
-                4 vs 4
-              </button>
-              <button type="button" value="5vs5" onClick={selectVersus}>
-                5 vs 5
-              </button>
+              <ButtonGroup variant="outlined">
+                <Button
+                  className={styles.on}
+                  type="button"
+                  value="3vs3"
+                  onClick={selectVersus}
+                >
+                  3 vs 3
+                </Button>
+                <Button type="button" value="4vs4" onClick={selectVersus}>
+                  4 vs 4
+                </Button>
+                <Button type="button" value="5vs5" onClick={selectVersus}>
+                  5 vs 5
+                </Button>
+              </ButtonGroup>
             </div>
             <div className={styles.people}>
               <label />
@@ -174,12 +177,14 @@ const CreateGame = () => {
             />
             <div className={styles.info}>
               <label />
-              <textarea
+              <TextField
                 name="info"
+                style={{ flexGrow: '1' }}
                 value={values.info}
                 onChange={handleChange}
+                placeholder="장소,시간,인원미충족시 운영여부 등을 알려주세요"
+                multiline
                 rows={4}
-                required
               />
             </div>
           </form>
