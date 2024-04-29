@@ -1,76 +1,104 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 const KakaoMap = ({ searchPlace }) => {
-  const [map, setMap] = useState(null);
+  const [values, setValues] = useState({
+    address: null,
+    buildingName: null,
+    map: null,
+    mapContainer: null,
+    mapOption: null,
+    geocoder: null,
+    marker: null,
+    infowindow: null,
+  });
+
   useEffect(() => {
-    const script = document.createElement("script");
+    const script = document.createElement('script');
     script.async = true;
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JS_API_KEY}&libraries=services&autoload=false`;
     document.head.appendChild(script);
 
-    script.addEventListener("load", () => {
+    script.addEventListener('load', () => {
       const { kakao } = window;
 
       kakao.maps.load(() => {
-        const container = document.getElementById("myMap");
-        const options = {
-          center: new kakao.maps.LatLng(37.566826, 126.9786567),
-          level: 3,
+        const mapContainer = document.getElementById('map'); // 지도를 표시할 div
+        const mapOption = {
+          center: new kakao.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+          level: 3, // 지도의 확대 레벨
         };
-        const defaultMap = new kakao.maps.Map(container, options);
-        setMap(defaultMap);
+        const map = new kakao.maps.Map(mapContainer, mapOption);
+        //주소-좌표 변환 객체를 생성
+        const geocoder = new kakao.maps.services.Geocoder();
+        //마커를 미리 생성
+        const marker = new kakao.maps.Marker({
+          position: new kakao.maps.LatLng(37.537187, 127.005476),
+          map: map,
+        });
+        const infowindow = new kakao.maps.InfoWindow({
+          position: new kakao.maps.LatLng(37.537187, 127.005476),
+          map: map,
+          content: '',
+        });
+
+        setValues({
+          ...values,
+          map: map,
+          mapContainer: mapContainer,
+          mapOption: mapOption,
+          geocoder: geocoder,
+          marker: marker,
+          infowindow: infowindow,
+        });
       });
     });
   }, []);
 
   useEffect(() => {
     const { kakao } = window;
-    if (!map || !kakao) return;
 
-    const ps = new kakao.maps.services.Places();
+    if (!values || !kakao || !searchPlace.location) return;
 
-    let infowindow = new kakao.maps.InfoWindow({ zindex: 1 });
+    setValues((prevValues) => ({
+      ...prevValues,
+      address: searchPlace.address,
+      buildingName: searchPlace.buildingName,
+    }));
+    values.geocoder.addressSearch(
+      searchPlace.location,
+      function (results, status) {
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+          var result = results[0]; //첫번째 결과의 값을 활용
 
-    function placesSearchCB(data, status, pagination) {
-      if (status === kakao.maps.services.Status.OK) {
-        let bounds = new kakao.maps.LatLngBounds();
-
-        for (let i = 0; i < data.length; i++) {
-          displayMarker(data[i]);
-          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+          // 해당 주소에 대한 좌표를 받아서
+          var coords = new kakao.maps.LatLng(result.y, result.x);
+          // 지도를 보여준다.
+          values.mapContainer.style.display = 'block';
+          values.map.relayout();
+          // 지도 중심을 변경한다.
+          values.map.setCenter(coords);
+          // 마커를 결과값으로 받은 위치로 옮긴다.
+          values.marker.setPosition(coords);
+          values.infowindow.setPosition(coords);
+          values.infowindow.setContent(
+            `<span style="padding:3px;">${searchPlace.buildingName}</span>`
+          );
+          values.infowindow.open(values.map, values.marker);
         }
-
-        map.setBounds(bounds);
       }
-    }
-
-    function displayMarker(place) {
-      let marker = new kakao.maps.Marker({
-        map: map,
-        position: new kakao.maps.LatLng(place.y, place.x),
-      });
-
-      kakao.maps.event.addListener(marker, "click", function () {
-        infowindow.setContent(
-          '<div style="padding:5px;font-size:12px;">' +
-            place.place_name +
-            "</div>"
-        );
-        infowindow.open(map, marker);
-      });
-    }
-    ps.keywordSearch(searchPlace, placesSearchCB);
-  }, [searchPlace, map]);
+    );
+  }, [searchPlace]);
 
   return (
-    <div
-      id="myMap"
-      style={{
-        margin: "0 auto",
-        width: "400px",
-        height: "400px",
-      }}
-    ></div>
+    <>
+      <div
+        id="map"
+        style={{
+          display: 'none',
+        }}
+      ></div>
+    </>
   );
 };
 

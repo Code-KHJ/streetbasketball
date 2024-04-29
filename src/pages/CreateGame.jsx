@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './pages.module.scss';
-import DaumMap from '@/components/utils/DaumMap';
 import useSupabase from '@/apis/useSupabase';
 import { useUser } from '@/contexts/UserContext';
 import { Button, ButtonGroup, TextField } from '@mui/material';
+import KakaoMap from '@/components/utils/KakaoMap';
 
 const CreateGame = () => {
   const supabase = useSupabase();
@@ -169,7 +169,7 @@ const CreateGame = () => {
                 주소 검색
               </button>
             </div>
-            <DaumMap
+            <KakaoMap
               searchPlace={{
                 location: values.location,
                 buildingName: values.buildingname,

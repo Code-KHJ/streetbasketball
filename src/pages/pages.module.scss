@@ -40,12 +40,12 @@
       }
       .schedule {
         label {
-          background: url("../assets/schedule.png") no-repeat center/95%;
+          background: url('../assets/schedule.png') no-repeat center/95%;
         }
       }
       .versus {
         label {
-          background: url("../assets/versus.png") no-repeat center/95%;
+          background: url('../assets/versus.png') no-repeat center/95%;
         }
         button {
           text-transform: none;
@@ -61,7 +61,7 @@
       }
       .people {
         label {
-          background: url("../assets/people.png") no-repeat center/95%;
+          background: url('../assets/people.png') no-repeat center/95%;
         }
         input {
           flex-grow: 0;
@@ -71,7 +71,7 @@
       }
       .info {
         label {
-          background: url("../assets/info-text.png") no-repeat center/95%;
+          background: url('../assets/info-text.png') no-repeat center/95%;
         }
         textarea {
           border: 0;
@@ -79,7 +79,7 @@
       }
       .location {
         label {
-          background: url("../assets/location.png") no-repeat center/95%;
+          background: url('../assets/location.png') no-repeat center/95%;
         }
       }
     }
@@ -93,97 +93,109 @@
 }
 
 .game_detail {
-  padding: 30px;
   .content_wrap {
-    .title {
-      font-weight: 700;
-    }
     .content {
-      margin-top: 50px;
       & > div {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 50px;
-        label {
-          color: #aaa;
-          width: 25px;
-          height: 25px;
-        }
-        input,
-        textarea {
-          flex-grow: 1;
-          font-size: 16px;
-          border: none;
-          border-bottom: 1px solid #aaa;
-        }
-        input:disabled {
-          background-color: #fff;
-        }
-        span {
-          line-height: 25px;
+        padding: 30px 30px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        & > h1 {
+          font-weight: 600;
+          font-size: 18px;
         }
       }
       .title {
-        height: 35px;
-        input {
-          font-size: 18px;
-          font-weight: 700;
+        margin-top: 10px;
+        h1 {
+          font-weight: 600;
+          font-size: 22px;
+        }
+        .location {
+          margin-top: 10px;
+          font-size: small;
+          .copy_location {
+            color: #727f88;
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+        .schedule {
+          margin-top: 15px;
+          font-size: 16px;
         }
       }
-      .schedule {
-        label {
-          background: url("../assets/schedule.png") no-repeat center/95%;
+      .game_type {
+        .types {
+          margin-top: 30px;
+          li {
+            width: 48%;
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 0;
+            img {
+              width: 24px;
+              height: 24px;
+              margin-right: 10px;
+            }
+          }
         }
       }
-      .versus {
-        label {
-          background: url("../assets/versus.png") no-repeat center/95%;
-        }
-        button {
-          text-transform: none;
-          background-color: transparent;
-          border: 1px solid #aaa;
-          color: #000;
-        }
-        .on {
-          background-color: #6269f5;
-          color: #fff;
+      .game_info,
+      .manner,
+      .map {
+        & > div:nth-of-type(1) {
+          margin-top: 30px;
         }
       }
-      .people {
-        label {
-          background: url("../assets/people.png") no-repeat center/95%;
+      .map {
+        .kakaomap {
+          & > div:nth-of-type(1) {
+            height: 250px;
+          }
         }
-        input {
-          flex-grow: 0;
-          width: 40px;
-          text-align: end;
-        }
-      }
-      .info {
-        label {
-          background: url("../assets/info-text.png") no-repeat center/95%;
-        }
-        textarea {
-          border: 0;
-        }
-      }
-      .location {
-        label {
-          background: url("../assets/location.png") no-repeat center/95%;
+        .location {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          padding: 15px 15px 12px 15px;
+          background-color: #f2f2f2;
+          span {
+            line-height: 24px;
+            text-align: center;
+          }
+          a {
+            font-size: 14px;
+            border: 1px solid;
+            border-radius: 30px;
+            width: 70px;
+            text-align: center;
+            padding: 4px 0;
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+          }
         }
       }
     }
   }
-  .btn_join {
+  .cta_wrap {
     position: sticky;
-    bottom: 40px;
+    height: 70px;
     z-index: 10;
-    margin-top: 50px;
-    width: 100%;
-    height: 40px;
-    cursor: pointer;
+    border-top: 1px solid #000;
+    bottom: 0;
+    background-color: blue;
+    button {
+    }
   }
+  // .btn_join {
+  //   position: sticky;
+  //   bottom: 40px;
+  //   z-index: 10;
+  //   margin-top: 50px;
+  //   width: 100%;
+  //   height: 40px;
+  //   cursor: pointer;
+  // }
 }
 
 .game_list {
@@ -216,6 +228,9 @@
       margin-top: 20px;
       padding: 0 10px;
       color: #686868;
+      label {
+        font-size: 14px;
+      }
     }
     .list {
       margin-top: -20px;
@@ -253,6 +268,18 @@
               border-radius: 4px;
               background-color: #dde8f8;
               color: #0066ff;
+            }
+            .done {
+              border: 1px solid #ffe0e0;
+              border-radius: 4px;
+              background-color: #ffe0e0;
+              color: red;
+            }
+            .closed {
+              border: 1px solid #aaa;
+              border-radius: 4px;
+              background-color: #aaa;
+              color: #fff;
             }
           }
           .title {
