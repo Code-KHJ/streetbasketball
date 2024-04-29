@@ -6,8 +6,9 @@ body {
 }
 #root {
   min-height: 100vh;
-  border-left: 1px solid #282c34;
-  border-right: 1px solid #282c34;
+  border: 0 solid #e5e7eb;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
   scrollbar-width: none;
 }
 #root::-webkit-scrollbar {

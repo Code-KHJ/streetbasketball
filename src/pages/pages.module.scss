@@ -40,12 +40,12 @@
       }
       .schedule {
         label {
-          background: url('../assets/schedule.png') no-repeat center/95%;
+          background: url("../assets/schedule.png") no-repeat center/95%;
         }
       }
       .versus {
         label {
-          background: url('../assets/versus.png') no-repeat center/95%;
+          background: url("../assets/versus.png") no-repeat center/95%;
         }
         button {
           text-transform: none;
@@ -61,7 +61,7 @@
       }
       .people {
         label {
-          background: url('../assets/people.png') no-repeat center/95%;
+          background: url("../assets/people.png") no-repeat center/95%;
         }
         input {
           flex-grow: 0;
@@ -71,7 +71,7 @@
       }
       .info {
         label {
-          background: url('../assets/info-text.png') no-repeat center/95%;
+          background: url("../assets/info-text.png") no-repeat center/95%;
         }
         textarea {
           border: 0;
@@ -79,7 +79,7 @@
       }
       .location {
         label {
-          background: url('../assets/location.png') no-repeat center/95%;
+          background: url("../assets/location.png") no-repeat center/95%;
         }
       }
     }
@@ -132,12 +132,12 @@
       }
       .schedule {
         label {
-          background: url('../assets/schedule.png') no-repeat center/95%;
+          background: url("../assets/schedule.png") no-repeat center/95%;
         }
       }
       .versus {
         label {
-          background: url('../assets/versus.png') no-repeat center/95%;
+          background: url("../assets/versus.png") no-repeat center/95%;
         }
         button {
           text-transform: none;
@@ -152,7 +152,7 @@
       }
       .people {
         label {
-          background: url('../assets/people.png') no-repeat center/95%;
+          background: url("../assets/people.png") no-repeat center/95%;
         }
         input {
           flex-grow: 0;
@@ -162,7 +162,7 @@
       }
       .info {
         label {
-          background: url('../assets/info-text.png') no-repeat center/95%;
+          background: url("../assets/info-text.png") no-repeat center/95%;
         }
         textarea {
           border: 0;
@@ -170,7 +170,7 @@
       }
       .location {
         label {
-          background: url('../assets/location.png') no-repeat center/95%;
+          background: url("../assets/location.png") no-repeat center/95%;
         }
       }
     }
@@ -194,12 +194,31 @@
     height: 150px;
   }
   .content_wrap {
+    h1 {
+      font-size: 18px;
+      font-weight: 700;
+      padding-left: 10px;
+      img {
+        width: 16px;
+        height: 16px;
+        margin-left: 2px;
+      }
+    }
+    p {
+      color: #686868;
+      margin-top: 10px;
+      padding-left: 10px;
+    }
     .filter {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      margin-top: 20px;
+      padding: 0 10px;
+      color: #686868;
     }
     .list {
+      margin-top: -20px;
       ul {
         display: flex;
         flex-direction: column;

@@ -17,21 +17,29 @@ header {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 8px 24px;
+    padding: 12px 30px;
 
     .logo {
-      line-height: 32px;
+      line-height: 36px;
       font-size: large;
     }
     .mypage {
-      width: 32px;
-      height: 32px;
-      background: url("../../assets/mypage.png") no-repeat center/95%;
     }
     .login {
       background-color: transparent;
       border: none;
       cursor: pointer;
+    }
+  }
+}
+.gnb_wrap {
+  & > div {
+    button {
+      color: #1f2937;
+      left: 0;
+    }
+    button:hover {
+      color: #2670fb;
     }
   }
 }
