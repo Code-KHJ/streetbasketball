@@ -3,40 +3,22 @@
 /* z-index (.modal : 10) (.nav-wrap : 11) */
 
 .create_game {
-  padding: 30px;
   .content_wrap {
+    padding-bottom: 98px;
     form {
       margin-top: 10px;
       & > div {
+        padding: 30px;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        margin-bottom: 50px;
         label {
           font-weight: 600;
           span {
             color: red;
           }
         }
-        // input,
-        // textarea {
-        //   flex-grow: 1;
-        //   font-size: 16px;
-        //   border: none;
-        //   border-bottom: 1px solid #aaa;
-        // }
-        // input:focus {
-        //   outline: none;
-        //   border-bottom: 1px solid #6269f5;
-        // }
       }
-      // .title {
-      //   height: 35px;
-      //   input {
-      //     font-size: 18px;
-      //     font-weight: 700;
-      //   }
-      // }
       .schedule {
         input {
           height: 23px;
@@ -52,11 +34,14 @@
           box-sizing: content-box;
         }
       }
-      .versus {
-        label {
-          background: url("../assets/versus.png") no-repeat center/95%;
+      .matchtime {
+        input {
+          text-align: right;
         }
+      }
+      .versus {
         button {
+          height: 40px;
           text-transform: none;
           background-color: transparent;
           border: 1px solid #aaa;
@@ -69,35 +54,99 @@
         }
       }
       .people {
-        label {
-          background: url("../assets/people.png") no-repeat center/95%;
-        }
-        input {
-          flex-grow: 0;
-          width: 40px;
-          text-align: end;
-        }
-      }
-      .info {
-        label {
-          background: url("../assets/info-text.png") no-repeat center/95%;
-        }
-        textarea {
-          border: 0;
+        & > div {
+          display: flex;
+          justify-content: space-between;
+          input {
+            text-align: right;
+          }
+          span {
+            width: 10%;
+            text-align: center;
+          }
         }
       }
       .location {
-        label {
-          background: url("../assets/location.png") no-repeat center/95%;
+        & > div {
+          display: flex;
+          justify-content: space-between;
+          gap: 5%;
+          button {
+            flex-basis: 1;
+            width: 100px;
+            background-color: #f2f2f2;
+            border: 1px solid #aaa;
+            color: #000;
+            cursor: pointer;
+          }
+          button:hover {
+            background-color: #dcdcdc;
+          }
+        }
+      }
+      .kakaomap {
+        padding-top: 0;
+        & > div:nth-of-type(1) {
+          height: 250px;
+        }
+      }
+      .check {
+        & > div {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          padding: 20px 14px;
+          border: 1px solid #aaa;
+          border-radius: 4px;
+          .checkitem {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            & > div:nth-of-type(2) {
+              label {
+                margin-right: 5px;
+              }
+            }
+          }
+          .Required {
+            color: red;
+          }
         }
       }
     }
+    .Required {
+      color: red;
+    }
   }
-  .btn_create {
-    margin-top: 50px;
+  .cta_wrap {
+    position: fixed;
+    max-width: 500px;
     width: 100%;
-    height: 40px;
-    cursor: pointer;
+    z-index: 10;
+    bottom: 0;
+    .btn_wrap {
+      height: 72px;
+      padding: 12px 30px;
+      background-color: #fff;
+      box-shadow: 0 -2px 12px 0 rgba(33, 37, 41, 0.08);
+      button {
+        width: 100%;
+        height: 48px;
+        color: #fff;
+        border: 1px solid #00c471;
+        border-radius: 4px;
+        background-color: #00c471;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button:disabled {
+        color: #3e4042;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        background-color: #aaa;
+      }
+    }
   }
 }
 
@@ -106,7 +155,7 @@
     padding-bottom: 98px;
     .content {
       & > div {
-        padding: 30px 30px;
+        padding: 30px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         & > h1 {
           font-weight: 600;
@@ -238,6 +287,7 @@
         background-color: #00c471;
         font-size: 15px;
         font-weight: 700;
+        cursor: pointer;
       }
       button:disabled {
         color: #3e4042;
@@ -298,6 +348,7 @@
           border: 1px solid #f6f7f7;
           background-color: #f6f7f7;
           border-radius: 10px;
+          cursor: pointer;
           & > div {
             line-height: 16px;
             font-size: 14px;
@@ -367,6 +418,9 @@
               height: 16px;
             }
           }
+        }
+        li:hover {
+          border-color: #000;
         }
       }
     }
