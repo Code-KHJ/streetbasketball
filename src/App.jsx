@@ -6,6 +6,8 @@ import GameList from './pages/GameList';
 import GameDetail from './pages/GameDetail';
 import { useUser } from '@/contexts/UserContext';
 import { useEffect, useState } from 'react';
+import Footer from './components/common/Footer';
+import Mypage from './pages/Mypage';
 
 function App() {
   const { user } = useUser();
@@ -27,7 +29,13 @@ function App() {
           element={user.id == null ? <Navigate to="/" /> : <CreateGame />}
         ></Route>
         <Route path="/detail" element={<GameDetail />}></Route>
+        <Route
+          path="/mypage"
+          element={<Mypage />}
+          // element={user.id == null ? <Navigate to="/" /> : <Mypage />}
+        ></Route>
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

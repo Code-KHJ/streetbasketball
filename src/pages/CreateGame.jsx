@@ -6,6 +6,10 @@ import { Button, ButtonGroup, TextField, InputAdornment } from '@mui/material';
 import KakaoMap from '@/components/utils/KakaoMap';
 
 const CreateGame = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const supabase = useSupabase();
   const { user } = useUser();
 

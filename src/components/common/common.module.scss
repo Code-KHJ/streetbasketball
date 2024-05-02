@@ -43,3 +43,32 @@ header {
     }
   }
 }
+footer {
+  background-color: #303740;
+  padding: 30px;
+  color: #bdbdbd;
+  font-size: 12px;
+  & > div {
+    margin-bottom: 10px;
+  }
+  .policy {
+    font-weight: 700;
+    a:not(:last-child)::after {
+      content: '|';
+      margin: 0 5px;
+    }
+    a {
+      color: #bdbdbd;
+      text-decoration: none;
+    }
+  }
+  .info {
+    span:not(:last-child)::after {
+      content: '|';
+      margin: 0 5px;
+    }
+    a {
+      color: #bdbdbd;
+    }
+  }
+}
