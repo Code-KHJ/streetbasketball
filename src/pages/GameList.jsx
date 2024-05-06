@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styles from "./pages.module.scss";
-import useSupabase from "@/apis/useSupabase";
-import Switch from "@mui/material/Switch";
-import { Box, FormControl, NativeSelect, Fab } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { useUser } from "@/contexts/UserContext";
-import FormmatDate from "@/components/utils/FormmatDate";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styles from './pages.module.scss';
+import useSupabase from '@/apis/useSupabase';
+import Switch from '@mui/material/Switch';
+import { Box, FormControl, NativeSelect, Fab } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { useUser } from '@/contexts/UserContext';
+import FormmatDate from '@/components/utils/FormmatDate';
+import BannerSlider from '@/components/utils/BannerSlider';
 
 const GameList = () => {
   const { user } = useUser();
@@ -14,16 +15,16 @@ const GameList = () => {
   const navigate = useNavigate();
 
   const [filters, setFilter] = useState({
-    region: "전체",
+    region: '전체',
     recruiting: false,
   });
   const handleChange = (e) => {
-    if (e.target.name === "region") {
+    if (e.target.name === 'region') {
       setFilter({
         ...filters,
         [e.target.name]: e.target.value,
       });
-    } else if (e.target.name === "recruiting") {
+    } else if (e.target.name === 'recruiting') {
       setFilter({
         ...filters,
         [e.target.name]: !filters.recruiting,
@@ -39,14 +40,14 @@ const GameList = () => {
       const getGameList = async () => {
         try {
           const { data: Games, error } = await supabase
-            .from("Games")
-            .select("*")
-            .neq("status", "closed")
-            .order("schedule", { ascending: true });
+            .from('Games')
+            .select('*')
+            .neq('status', 'closed')
+            .order('schedule', { ascending: true });
           setAllGameList(Games);
         } catch (error) {
-          console.error("Error", error.message);
-          window.location.href = "/";
+          console.error('Error', error.message);
+          window.location.href = '/';
         }
       };
       getGameList();
@@ -56,14 +57,14 @@ const GameList = () => {
   useEffect(() => {
     if (allGameList.length > 0) {
       let filteredList = allGameList;
-      if (filters.region !== "전체") {
+      if (filters.region !== '전체') {
         filteredList = filteredList.filter((game) =>
           game.location.includes(filters.region)
         );
       }
       if (filters.recruiting) {
         filteredList = filteredList.filter(
-          (game) => game.status === "recruiting"
+          (game) => game.status === 'recruiting'
         );
       }
       setGameList(filteredList);
@@ -101,13 +102,15 @@ const GameList = () => {
     if (user.id !== null) {
       navigate(`/create`);
     } else {
-      alert("로그인이 필요한 서비스입니다. 로그인 후 이용해주세요.");
+      alert('로그인이 필요한 서비스입니다. 로그인 후 이용해주세요.');
     }
   };
   return (
     <div>
       <div className={styles.game_list}>
-        <section className={styles.introduce}>서비스 소개</section>
+        <section className={styles.introduce}>
+          <BannerSlider></BannerSlider>
+        </section>
         <section className={styles.content_wrap}>
           <h1>
             추천 매치
@@ -144,14 +147,14 @@ const GameList = () => {
               </FormControl>
             </Box>
             <div>
-              <label style={{ color: filters.recruiting && "#1876D1" }}>
+              <label style={{ color: filters.recruiting && '#1876D1' }}>
                 모집중
               </label>
               <Switch
                 name="recruiting"
                 checked={filters.recruiting}
                 onChange={handleChange}
-                inputProps={{ "aria-label": "Switch demo" }}
+                inputProps={{ 'aria-label': 'Switch demo' }}
               />
             </div>
           </div>
@@ -160,9 +163,9 @@ const GameList = () => {
               {gameList.map((item, index) => (
                 <li key={index} onClick={() => linkDetail(item.id)}>
                   <div className={styles.tag}>
-                    {item.status === "recruiting" ? (
+                    {item.status === 'recruiting' ? (
                       <span className={styles.recruiting}>모집중</span>
-                    ) : item.status === "done" ? (
+                    ) : item.status === 'done' ? (
                       <span className={styles.done}>모집마감</span>
                     ) : (
                       <span className={styles.closed}>모집종료</span>
@@ -172,13 +175,13 @@ const GameList = () => {
                   <div className={styles.title}>{item.title}</div>
                   <div className={styles.game_info}>
                     <div className={styles.schedule}>
-                      <img src="/images/schedule.png" alt="clock icon" />
+                      {/* <img src="/images/schedule.png" alt="clock icon" /> */}
                       {FormmatDate(item.schedule)}
                     </div>
-                    <span style={{ margin: "0 10px" }}>|</span>
+                    <span style={{ margin: '0 10px' }}>|</span>
                     <div className={styles.location}>
-                      <img src="/images/location.png" alt="clock icon" />
-                      {item.location.split(" ").slice(0, 2).join(" ")}{" "}
+                      {/* <img src="/images/location.png" alt="clock icon" /> */}
+                      {item.location.split(' ').slice(0, 2).join(' ')}{' '}
                       {item.buildingname}
                     </div>
                   </div>
@@ -189,19 +192,20 @@ const GameList = () => {
               ))}
             </ul>
           </div>
+          <Fab
+            style={{
+              position: 'sticky',
+              bottom: '80px',
+              right: '40px',
+              float: 'right',
+            }}
+            color="warning"
+            aria-label="add"
+            onClick={linkCreate}
+          >
+            <AddIcon />
+          </Fab>
         </section>
-        <Fab
-          style={{
-            position: "sticky",
-            bottom: "60px",
-            float: "right",
-          }}
-          color="warning"
-          aria-label="add"
-          onClick={linkCreate}
-        >
-          <AddIcon />
-        </Fab>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ const KakaoMapLatLng = ({ searchPlace }) => {
     if (!kakao || !searchPlace) return;
 
     const geocoder = new kakao.maps.services.Geocoder();
+    if (!geocoder) return;
     geocoder.addressSearch(searchPlace, function (results, status) {
       // 정상적으로 검색이 완료됐으면
       if (status === kakao.maps.services.Status.OK) {

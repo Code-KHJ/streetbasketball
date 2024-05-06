@@ -217,11 +217,14 @@ const CreateGame = () => {
     );
     const isValidates = Object.values(validate).every((value) => value);
     setIsSubmitDisabled(!(isValidates && isValues));
-    console.log(values);
   }, [values, validate]);
 
   const createGame = async () => {
-    console.log(values);
+    const userConfirm = window.confirm('매치를 생성하시겠습니까?');
+    if (!userConfirm) {
+      return;
+    }
+
     if (!values.member.member.includes(user.id)) {
       values.member.member.push(user.id);
     }
@@ -240,6 +243,7 @@ const CreateGame = () => {
       } else {
         const gameId = data[0].id;
         alert('매치가 등록되었습니다.');
+        window.scrollTo(0, 0);
         window.location.href = `/detail?id=${gameId}`;
       }
     } catch (error) {
@@ -247,7 +251,6 @@ const CreateGame = () => {
       alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
     }
   };
-  console.log(validate.ball);
 
   return (
     <div>
@@ -421,7 +424,7 @@ const CreateGame = () => {
                 style={{ flexGrow: '1' }}
                 value={values.info}
                 onChange={handleChange}
-                placeholder="장소,시간,인원미충족시 운영여부 등을 알려주세요"
+                placeholder="구체적인 장소, 운영방식, 인원 미충족시 진행여부 등 사전 숙지해야할 사항을 자세히 알려주세요."
                 multiline
                 rows={6}
               />
@@ -431,6 +434,20 @@ const CreateGame = () => {
                 유의사항<span> *</span>
               </label>
               <div>
+                <div className={styles.notice}>
+                  <p>- 매너있고 즐거운 운동이 되도록 이끌어주세요.</p>
+                  <p>
+                    - 운동이 과격해지거나 부상 발생이 우려될 경우 운동을
+                    중단해주세요.
+                  </p>
+                  <p>
+                    - 현장 상황에 의해 운동장소가 변경될 경우 꼭 사전에
+                    공지해주세요.
+                  </p>
+                  <p>
+                    - 참여자와 소통을 위해서 오픈채팅방에 꼭 미리 참가해주세요.
+                  </p>
+                </div>
                 <div className={styles.checkitem}>
                   <div
                     id="read"

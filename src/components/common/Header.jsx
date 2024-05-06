@@ -25,15 +25,19 @@ const Header = () => {
       <div className={styles.header_wrap}>
         {location.pathname === '/' ? (
           <Link to="/" className={styles.logo}>
-            logo
+            <img
+              src="/images/logo.png"
+              style={{ width: '48px', verticalAlign: 'center' }}
+              alt="logo"
+            />
           </Link>
         ) : (
           <Link
             to="/"
             className={styles.logo}
-            style={{ color: '#000', padding: '4.5px 0', lineHeight: '0' }}
+            style={{ color: '#000', padding: '6.5px 0', lineHeight: '0' }}
           >
-            <NavigateBeforeSharpIcon />
+            <NavigateBeforeSharpIcon fontSize="large" />
           </Link>
         )}
         {user.id !== null ? (

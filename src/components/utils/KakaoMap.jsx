@@ -41,38 +41,39 @@ const KakaoMap = ({ searchPlace }) => {
           content: '',
         });
 
-        setValues({
-          ...values,
+        setValues((prevValues) => ({
+          ...prevValues,
           map: map,
           mapContainer: mapContainer,
           mapOption: mapOption,
           geocoder: geocoder,
           marker: marker,
           infowindow: infowindow,
-        });
+        }));
       });
     });
   }, []);
 
   useEffect(() => {
     const { kakao } = window;
-
     if (!values || !kakao || !searchPlace.location) return;
 
     setValues((prevValues) => ({
       ...prevValues,
-      address: searchPlace.address,
+      address: searchPlace.location,
       buildingName: searchPlace.buildingName,
     }));
+    if (!values.geocoder) return;
+
     values.geocoder.addressSearch(
       searchPlace.location,
       function (results, status) {
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
           var result = results[0]; //첫번째 결과의 값을 활용
-
           // 해당 주소에 대한 좌표를 받아서
           var coords = new kakao.maps.LatLng(result.y, result.x);
+
           // 지도를 보여준다.
           values.mapContainer.style.display = 'block';
           values.map.relayout();
@@ -86,6 +87,7 @@ const KakaoMap = ({ searchPlace }) => {
           );
           values.infowindow.open(values.map, values.marker);
         }
+        console.log(values);
       }
     );
   }, [searchPlace]);

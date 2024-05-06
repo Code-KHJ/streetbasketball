@@ -4,8 +4,8 @@ import useSupabase from '@/apis/useSupabase';
 import { useUser } from '@/contexts/UserContext';
 import styles from './pages.module.scss';
 import FormmatDate from '@/components/utils/FormmatDate';
-import KakaoMap from '@/components/utils/KakaoMap';
 import KakaoMapLatLng from '@/components/utils/KakaoMapLatLng';
+import GetKakaoMap from '@/components/utils/GetKakaoMap';
 
 const GameDetail = () => {
   const supabase = useSupabase();
@@ -170,6 +170,12 @@ const GameDetail = () => {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
+
+    const userConfirm = window.confirm('매치에 참여하시겠습니까?');
+    if (!userConfirm) {
+      return;
+    }
+
     if (!values.member.member.includes(user.id)) {
       values.member.member.push(user.id);
     }
@@ -195,215 +201,239 @@ const GameDetail = () => {
       console.error('Error', error.message);
       alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
     }
-    console.log(values.member.member);
   };
-
   return (
     <div>
       <div className={styles.game_detail}>
-        <section className={styles.content_wrap}>
-          <div className={styles.content}>
-            <div className={styles.title}>
-              <h1>{values.title}</h1>
-              <div className={styles.location}>
-                <span>
-                  {values.location} ({values.buildingname})
-                </span>
-                <span> | </span>
-                <span className={styles.copy_location} onClick={copyLocation}>
-                  주소 복사
-                </span>
-              </div>
-              <div className={styles.schedule}>
-                {FormmatDate(values.schedule)}
-              </div>
-              <div className={styles.members}>
-                현재인원: {values.member.member.length}명
-              </div>
-            </div>
-            <div className={styles.game_type}>
-              <h1>매치 방식</h1>
-              <div className={styles.types}>
-                <ul>
-                  <li>
-                    <img src="/images/court.png" alt="court icon" />
-                    {values.versus}
-                  </li>
-                  <li>
-                    <img src="/images/people.png" alt="people icon" />
-                    {values.minimum}~{values.maximum}명
-                  </li>
-                  <li>
-                    <img src="/images/hourglass.png" alt="hourglass icon" />
-                    {values.matchtime}시간
-                  </li>
-                  {values.member.withball.length > 0 ? (
-                    <li>
-                      <img src="/images/basketball_black.png" alt="ball icon" />
-                      {values.member.withball.length}개 준비
-                    </li>
-                  ) : (
-                    <li>
-                      <img src="/images/basketball_black.png" alt="ball icon" />
-                      0개
-                      <span style={{ margin: '0 10px' }}></span>
-                      <span style={{ color: 'red', fontWeight: '600' }}>
-                        공이 필요해요!
-                      </span>
-                    </li>
-                  )}
-                </ul>
-              </div>
-            </div>
-            <div className={styles.game_info}>
-              <h1>매치 안내</h1>
-              <div>{values.info}</div>
-            </div>
-            <div className={styles.manner}>
-              <h1>이것은 꼭 지켜주세요</h1>
-              <div>1. 안내사항을 전달합니다.</div>
-              <div>1. 안내사항을 전달합니다.</div>
-              <div>1. 안내사항을 전달합니다.</div>
-              <div>1. 안내사항을 전달합니다.</div>
-              <div>1. 안내사항을 전달합니다.</div>
-            </div>
-            <div className={styles.map}>
-              <h1>위치 안내</h1>
-              <div className={styles.kakaomap}>
-                <KakaoMap
-                  searchPlace={{
-                    location: values.location,
-                    buildingName: values.buildingname,
-                  }}
-                />
-              </div>
-              <div className={styles.location}>
-                <span>{values.location}</span>
-                <a
-                  href={`https://map.kakao.com/link/to/${values.location},${latLngResult.lat},${latLngResult.lng}`}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  길찾기
-                </a>
-              </div>
-            </div>
-            {isDisabled.status ? (
-              <></>
-            ) : (
-              <div className={styles.check}>
-                <h1>신청 전 확인</h1>
-                <div className={styles.checkitem}>
-                  <div
-                    id="read"
-                    className={checkListRed.read ? styles.Required : ''}
-                  >
-                    위 안내사항을 모두 확인하셨나요?
+        {values.title !== '' ? (
+          <>
+            <section className={styles.content_wrap}>
+              <div className={styles.content}>
+                <div className={styles.title}>
+                  <h1>{values.title}</h1>
+                  <div className={styles.location}>
+                    <span>
+                      {values.location} ({values.buildingname})
+                    </span>
+                    <span> | </span>
+                    <span
+                      className={styles.copy_location}
+                      onClick={copyLocation}
+                    >
+                      주소 복사
+                    </span>
                   </div>
-                  <div>
-                    <label>
-                      <input
-                        type="radio"
-                        name="read"
-                        value="y"
-                        checked={checkList.read === 'y'}
-                        onChange={handleChangeCheckList}
-                      />
-                      네
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="read"
-                        value="n"
-                        checked={checkList.read === 'n'}
-                        onChange={handleChangeCheckList}
-                      />
-                      아니요
-                    </label>
+                  <div className={styles.schedule}>
+                    {FormmatDate(values.schedule)}
+                  </div>
+                  <div className={styles.members}>
+                    현재인원: {values.member.member.length}명
                   </div>
                 </div>
-                <div className={styles.checkitem}>
-                  <div
-                    id="manner"
-                    className={checkListRed.manner ? styles.Required : ''}
-                  >
-                    운동 중 매너 지켜주실거죠?
-                  </div>
-                  <div>
-                    <label>
-                      <input
-                        type="radio"
-                        name="manner"
-                        value="y"
-                        checked={checkList.manner === 'y'}
-                        onChange={handleChangeCheckList}
-                      />
-                      네
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="manner"
-                        value="n"
-                        checked={checkList.manner === 'n'}
-                        onChange={handleChangeCheckList}
-                      />
-                      아니요
-                    </label>
-                  </div>
-                </div>
-                <div className={styles.checkitem}>
-                  <div
-                    id="ball"
-                    className={checkListRed.ball ? styles.Required : ''}
-                  >
-                    혹시 매치볼을 가져오시나요?
-                  </div>
-                  <div>
-                    <label>
-                      <input
-                        type="radio"
-                        name="ball"
-                        value="y"
-                        checked={checkList.ball === 'y'}
-                        onChange={handleChangeCheckList}
-                      />
-                      네
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="ball"
-                        value="n"
-                        checked={checkList.ball === 'n'}
-                        onChange={handleChangeCheckList}
-                      />
-                      아니요
-                    </label>
+                <div className={styles.game_type}>
+                  <h1>매치 방식</h1>
+                  <div className={styles.types}>
+                    <ul>
+                      <li>
+                        <img src="/images/court.png" alt="court icon" />
+                        {values.versus}
+                      </li>
+                      <li>
+                        <img src="/images/people.png" alt="people icon" />
+                        {values.minimum}~{values.maximum}명
+                      </li>
+                      <li>
+                        <img src="/images/hourglass.png" alt="hourglass icon" />
+                        {values.matchtime}시간
+                      </li>
+                      {values.member.withball.length > 0 ? (
+                        <li>
+                          <img
+                            src="/images/basketball_black.png"
+                            alt="ball icon"
+                          />
+                          {values.member.withball.length}개 준비
+                        </li>
+                      ) : (
+                        <li>
+                          <img
+                            src="/images/basketball_black.png"
+                            alt="ball icon"
+                          />
+                          0개
+                          <span style={{ margin: '0 10px' }}></span>
+                          <span style={{ color: 'red', fontWeight: '600' }}>
+                            공이 필요해요!
+                          </span>
+                        </li>
+                      )}
+                    </ul>
                   </div>
                 </div>
+                <div className={styles.game_info}>
+                  <h1>매치 안내</h1>
+                  <div>{values.info}</div>
+                </div>
+                <div className={styles.manner}>
+                  <h1>이것은 꼭 지켜주세요</h1>
+                  <div className={styles.notice}>
+                    <p>1. 즐거운 운동이 되도록 기본적인 매너를 지켜주세요.</p>
+                    <p>
+                      2. 운동시간 10분 전까지 코트에 오셔서 인사와 몸풀기로
+                      준비해주세요.
+                    </p>
+                    <p>
+                      3. 당일 인원 & 코트 상황에 따라 매치방식이 변경될 수
+                      있습니다.
+                    </p>
+                    <p>
+                      4. 사전 소통을 위해서 오픈채팅방에 꼭 미리 참가해주세요.
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.map}>
+                  <h1>위치 안내</h1>
+                  <div className={styles.kakaomap}>
+                    <GetKakaoMap
+                      searchPlace={{
+                        location: values.location,
+                        buildingName: values.buildingname,
+                      }}
+                    />
+                  </div>
+                  <div className={styles.location}>
+                    <span>{values.location}</span>
+                    <a
+                      href={`https://map.kakao.com/link/to/${values.location},${latLngResult.lat},${latLngResult.lng}`}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      길찾기
+                    </a>
+                  </div>
+                </div>
+                {isDisabled.status ? (
+                  <></>
+                ) : (
+                  <div className={styles.check}>
+                    <h1>신청 전 확인</h1>
+                    <div className={styles.checkitem}>
+                      <div
+                        id="read"
+                        className={checkListRed.read ? styles.Required : ''}
+                      >
+                        위 안내사항을 모두 확인하셨나요?
+                      </div>
+                      <div>
+                        <label>
+                          <input
+                            type="radio"
+                            name="read"
+                            value="y"
+                            checked={checkList.read === 'y'}
+                            onChange={handleChangeCheckList}
+                          />
+                          네
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name="read"
+                            value="n"
+                            checked={checkList.read === 'n'}
+                            onChange={handleChangeCheckList}
+                          />
+                          아니요
+                        </label>
+                      </div>
+                    </div>
+                    <div className={styles.checkitem}>
+                      <div
+                        id="manner"
+                        className={checkListRed.manner ? styles.Required : ''}
+                      >
+                        운동 중 매너 지켜주실거죠?
+                      </div>
+                      <div>
+                        <label>
+                          <input
+                            type="radio"
+                            name="manner"
+                            value="y"
+                            checked={checkList.manner === 'y'}
+                            onChange={handleChangeCheckList}
+                          />
+                          네
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name="manner"
+                            value="n"
+                            checked={checkList.manner === 'n'}
+                            onChange={handleChangeCheckList}
+                          />
+                          아니요
+                        </label>
+                      </div>
+                    </div>
+                    <div className={styles.checkitem}>
+                      <div
+                        id="ball"
+                        className={checkListRed.ball ? styles.Required : ''}
+                      >
+                        혹시 매치볼을 가져오시나요?
+                      </div>
+                      <div>
+                        <label>
+                          <input
+                            type="radio"
+                            name="ball"
+                            value="y"
+                            checked={checkList.ball === 'y'}
+                            onChange={handleChangeCheckList}
+                          />
+                          네
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name="ball"
+                            value="n"
+                            checked={checkList.ball === 'n'}
+                            onChange={handleChangeCheckList}
+                          />
+                          아니요
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </section>
-        <section className={styles.cta_wrap}>
-          {isDisabled.status ? (
-            <div className={styles.hooking}>{isDisabled.text} 되었습니다.</div>
-          ) : (
-            <div className={styles.hooking}>
-              마감까지{' '}
-              <strong style={{ color: 'red' }}>
-                {values.maximum - values.member.member.length}자리 남았어요!
-              </strong>
-            </div>
-          )}
-          <div className={styles.btn_wrap}>
-            <button onClick={joinGame} disabled={isDisabled.status}>
-              {isDisabled.text}
-            </button>
-          </div>
-        </section>
+            </section>
+            <section className={styles.cta_wrap}>
+              {isDisabled.status ? (
+                <div className={styles.hooking}>
+                  {isDisabled.text} 되었습니다.
+                </div>
+              ) : (
+                <div className={styles.hooking}>
+                  마감까지{' '}
+                  <strong style={{ color: 'red' }}>
+                    {values.maximum - values.member.member.length}자리 남았어요!
+                  </strong>
+                </div>
+              )}
+              <div className={styles.btn_wrap}>
+                <button onClick={joinGame} disabled={isDisabled.status}>
+                  {isDisabled.text}
+                </button>
+              </div>
+            </section>
+          </>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

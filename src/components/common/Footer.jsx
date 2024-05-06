@@ -10,14 +10,14 @@ const Footer = () => {
         <footer>
           <div className={styles.policy}>
             <a
-              href="http://pf.kakao.com/_ZBlkG"
+              href="https://obvious-supernova-386.notion.site/d80155fcf4654b17ad3e15be0bb33d26?pvs=4"
               target="_blank"
               rel="noreferrer"
             >
               이용약관
             </a>
             <a
-              href="http://pf.kakao.com/_ZBlkG"
+              href="https://obvious-supernova-386.notion.site/7949f0f25b924c4b87144338b564f605?pvs=4"
               target="_blank"
               rel="noreferrer"
             >

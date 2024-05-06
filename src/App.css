@@ -6,9 +6,6 @@ body {
 #root {
   max-width: 460px;
   min-height: 100vh;
-  border: 0 solid #e5e7eb;
-  border-left: 1px solid #e5e7eb;
-  border-right: 1px solid #e5e7eb;
   background-color: #fff;
   scrollbar-width: none;
   margin: 0 auto;
@@ -59,8 +56,9 @@ body {
 @media (min-width: 1024px) {
   body {
     background-color: #eef1fc;
-    /* background: url("/public/images/main_background.jpeg") no-repeat;
-    background-size: cover; */
+    background: url('/public/images/main_background.jpg') no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
   }
   #root {
     margin: 0 0 0 calc(50vw + 45px);

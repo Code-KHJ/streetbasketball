@@ -17,15 +17,16 @@ header {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 12px 30px;
-
-    .logo {
-      line-height: 36px;
-      font-size: large;
+    padding: 6px 16px;
+    & > div {
+      height: 48px;
     }
-    .mypage {
+    .logo {
+      height: 48px;
     }
     .login {
+      color: #1f2937;
+      font-size: 18px;
       background-color: transparent;
       border: none;
       cursor: pointer;
@@ -45,7 +46,7 @@ header {
 }
 footer {
   background-color: #303740;
-  padding: 30px;
+  padding: 30px 16px;
   color: #bdbdbd;
   font-size: 12px;
   & > div {

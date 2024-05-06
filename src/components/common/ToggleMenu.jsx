@@ -29,9 +29,13 @@ const ToggleMenu = () => {
       <React.Fragment>
         <Button
           onClick={toggleMenu}
-          style={{ color: '#000', padding: '4.5px 8px' }}
+          style={{ color: '#000', padding: '6.5px 8px' }}
         >
-          {isOpen ? <CloseSharpIcon /> : <MenuSharpIcon />}
+          {isOpen ? (
+            <CloseSharpIcon fontSize="large" />
+          ) : (
+            <MenuSharpIcon fontSize="large" />
+          )}
         </Button>
         {isOpen && (
           <div
