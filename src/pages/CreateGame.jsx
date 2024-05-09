@@ -4,6 +4,7 @@ import useSupabase from '@/apis/useSupabase';
 import { useUser } from '@/contexts/UserContext';
 import { Button, ButtonGroup, TextField, InputAdornment } from '@mui/material';
 import KakaoMap from '@/components/utils/KakaoMap';
+import { useNavigate } from 'react-router-dom';
 
 const CreateGame = () => {
   useEffect(() => {
@@ -12,6 +13,7 @@ const CreateGame = () => {
 
   const supabase = useSupabase();
   const { user } = useUser();
+  const navigate = useNavigate();
 
   const [values, setValues] = useState({
     organizer: user.id,
@@ -244,7 +246,7 @@ const CreateGame = () => {
         const gameId = data[0].id;
         alert('매치가 등록되었습니다.');
         window.scrollTo(0, 0);
-        window.location.href = `/detail?id=${gameId}`;
+        navigate(`/detail?id=${gameId}`);
       }
     } catch (error) {
       console.error('Error', error.message);

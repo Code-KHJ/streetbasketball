@@ -26,6 +26,7 @@ const Footer = () => {
           </div>
           <div className={styles.info}>
             <span>길거리농구(gilnong)</span>
+            <span>NEEDU</span>
             <span>대표자 김현준</span>
           </div>
           <div className={styles.info}>

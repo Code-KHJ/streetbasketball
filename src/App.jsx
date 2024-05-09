@@ -19,6 +19,12 @@ function App() {
       setIsLogin(true);
     }
   }, [user]);
+
+  const { Kakao } = window;
+  if (!Kakao.isInitialized()) {
+    Kakao.init(`${process.env.REACT_APP_KAKAO_JS_API_KEY}`);
+  }
+
   return (
     <BrowserRouter>
       <Header />

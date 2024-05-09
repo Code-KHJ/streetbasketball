@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './common.module.scss';
-import { Link, redirect, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import useSupabase from '@/apis/useSupabase';
 import { useUser } from '@/contexts/UserContext';
 import ToggleMenu from './ToggleMenu';
@@ -15,6 +15,7 @@ const Header = () => {
       provider: 'kakao',
       options: {
         redirectTo: process.env.REACT_APP_URL + url,
+        scopes: `phone_number, plusfriends, talk_message, talk_calendar`,
       },
     });
     if (error) throw error.message;

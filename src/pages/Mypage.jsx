@@ -25,7 +25,7 @@ const Mypage = () => {
           setGameList(Games);
         } catch (error) {
           console.error('Error', error.message);
-          window.location.href = '/mypage';
+          window.location.href = '/';
         }
       };
       getGameList();
