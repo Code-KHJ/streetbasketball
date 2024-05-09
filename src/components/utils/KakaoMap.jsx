@@ -87,7 +87,6 @@ const KakaoMap = ({ searchPlace }) => {
           );
           values.infowindow.open(values.map, values.marker);
         }
-        console.log(values);
       }
     );
   }, [searchPlace]);

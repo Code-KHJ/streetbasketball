@@ -22,7 +22,6 @@ const GetKakaoMap = ({ searchPlace }) => {
       const { kakao } = window;
       if (!values || !kakao || !searchPlace.location) return;
 
-      console.log(searchPlace);
       setValues((prevValues) => ({
         ...prevValues,
         address: searchPlace.location,

@@ -19,7 +19,7 @@ const CreateGame = () => {
     organizer: user.id,
     title: '',
     schedule: '',
-    versus: '',
+    versus: '3vs3',
     info: '',
     location: '',
     buildingname: '',
