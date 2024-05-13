@@ -2,10 +2,13 @@ const calendarApi = {
   create: async (data, latLng) => {
     const startDate = (timeString) => {
       let time = new Date(timeString);
-      let minutes = time.getMinutes();
+      let minutes = time.getUTCMinutes();
       let roundedMinutes = Math.ceil(minutes / 5) * 5;
+      time.setMonth(time.getUTCMonth());
+      time.setDate(time.getUTCDate());
+      time.setHours(time.getUTCHours());
       if (roundedMinutes >= 60) {
-        time.setHours(time.getHours() + 1);
+        time.setHours(time.getUTCHours() + 1);
         roundedMinutes = 0;
       }
       time.setMinutes(roundedMinutes);
@@ -14,16 +17,17 @@ const calendarApi = {
     };
     const endDate = (timeString, matchtime) => {
       let time = new Date(timeString);
-      let minutes = time.getMinutes();
+      let minutes = time.getUTCMinutes();
       let roundedMinutes = Math.ceil(minutes / 5) * 5;
+
       if (roundedMinutes >= 60) {
-        time.setHours(time.getHours() + 1);
+        time.setHours(time.getUTCHours() + 1);
         roundedMinutes = 0;
       }
-      let hours = time.getHours();
+      let hours = time.getUTCHours();
       let endHours = hours + matchtime;
       if (endHours >= 24) {
-        time.setDate(time.getDate() + 1);
+        time.setDate(time.getUTCDate() + 1);
         endHours = endHours - 24;
       }
       time.setMinutes(roundedMinutes);
@@ -108,7 +112,6 @@ https://open.kakao.com/o/gIvCS6pg
         }
       );
       const responseData = await response.json();
-      console.log(responseData);
       return responseData;
     } catch (error) {
       console.error('Error:', error);
