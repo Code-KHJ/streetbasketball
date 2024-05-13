@@ -10,6 +10,7 @@ export const UserProvider = ({ children }) => {
     id: null,
     nickname: null,
     phone: null,
+    kakaoat: null,
   });
 
   function convertPhoneFormat(phoneNumber) {
@@ -31,6 +32,7 @@ export const UserProvider = ({ children }) => {
             id: null,
             nickname: null,
             phone: null,
+            kakaoat: null,
           });
         } else if (userdata) {
           setUser((prevUser) => ({
@@ -38,6 +40,7 @@ export const UserProvider = ({ children }) => {
             id: userdata.user.email,
             nickname: userdata.user.user_metadata.full_name,
             phone: userdata.user.user_metadata.phone,
+            kakaoat: userdata.provider_token,
           }));
 
           if (!userdata.user.user_metadata.phone) {

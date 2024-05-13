@@ -6,6 +6,7 @@ import styles from './pages.module.scss';
 import FormmatDate from '@/components/utils/FormmatDate';
 import KakaoMapLatLng from '@/components/utils/KakaoMapLatLng';
 import GetKakaoMap from '@/components/utils/GetKakaoMap';
+import calendarApi from '@/apis/kakaoCalendar';
 
 const GameDetail = () => {
   const supabase = useSupabase();
@@ -33,6 +34,7 @@ const GameDetail = () => {
     maximum: '',
     matchtime: '',
     status: '',
+    calendar_id: '',
   });
 
   useEffect(() => {
@@ -194,6 +196,7 @@ const GameDetail = () => {
         console.error('Error', error.message);
         alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
       } else {
+        const addUser = await calendarApi.add(values.calendar_id, user.kakaoat);
         alert('신청되었습니다.');
         window.location.reload();
       }

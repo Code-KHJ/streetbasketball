@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useUser } from '@/contexts/UserContext';
 import FormmatDate from '@/components/utils/FormmatDate';
 import BannerSlider from '@/components/utils/BannerSlider';
+import calendarApi from '@/apis/kakaoCalendar';
 
 const GameList = () => {
   const { user } = useUser();
@@ -42,7 +43,7 @@ const GameList = () => {
           const { data: Games, error } = await supabase
             .from('Games')
             .select('*')
-            .neq('status', 'closed')
+            // .neq('status', 'closed')
             .order('schedule', { ascending: true });
           setAllGameList(Games);
         } catch (error) {
@@ -105,6 +106,7 @@ const GameList = () => {
       alert('로그인이 필요한 서비스입니다. 로그인 후 이용해주세요.');
     }
   };
+
   return (
     <div>
       <div className={styles.game_list}>

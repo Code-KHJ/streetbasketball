@@ -4,7 +4,9 @@ import useSupabase from '@/apis/useSupabase';
 import { useUser } from '@/contexts/UserContext';
 import { Button, ButtonGroup, TextField, InputAdornment } from '@mui/material';
 import KakaoMap from '@/components/utils/KakaoMap';
+import KakaoMapLatLng from '@/components/utils/KakaoMapLatLng';
 import { useNavigate } from 'react-router-dom';
+import calendarApi from '@/apis/kakaoCalendar';
 
 const CreateGame = () => {
   useEffect(() => {
@@ -182,6 +184,8 @@ const CreateGame = () => {
     }).open();
   };
 
+  const latLngResult = KakaoMapLatLng({ searchPlace: values.location });
+
   const [checkList, setCheckList] = useState({
     read: '',
     manner: '',
@@ -233,6 +237,7 @@ const CreateGame = () => {
     if (checkList.ball === 'y' && !values.member.withball.includes(user.id)) {
       values.member.withball.push(user.id);
     }
+
     try {
       const { data, error } = await supabase
         .from('Games')
@@ -244,6 +249,51 @@ const CreateGame = () => {
         alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
       } else {
         const gameId = data[0].id;
+
+        // 공개일정 생성
+        const calendarId = await calendarApi.create(data[0], latLngResult);
+
+        if (calendarId.event_id === undefined) {
+          const { data, error } = await supabase
+            .from('Games')
+            .delete()
+            .eq('id', gameId);
+
+          alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+          return;
+        }
+
+        // 매치 캘린더 id 추가
+        try {
+          const { data, error } = await supabase
+            .from('Games')
+            .update({ calendar_id: calendarId.event_id })
+            .eq('id', gameId)
+            .select();
+          if (error) {
+            console.error('Error', error.message);
+            alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+          }
+        } catch (error) {
+          console.error('Error', error.message);
+          alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        }
+
+        // 공개일정 초대
+        const addUser = await calendarApi.add(
+          calendarId.event_id,
+          user.kakaoat
+        );
+        if (calendarId.event_id !== addUser.event_id) {
+          const { data, error } = await supabase
+            .from('Games')
+            .delete()
+            .eq('id', gameId);
+
+          alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+          return;
+        }
+
         alert('매치가 등록되었습니다.');
         window.scrollTo(0, 0);
         navigate(`/detail?id=${gameId}`);
