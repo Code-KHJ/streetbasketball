@@ -19,7 +19,8 @@ const calendarApi = {
       let time = new Date(timeString);
       let minutes = time.getUTCMinutes();
       let roundedMinutes = Math.ceil(minutes / 5) * 5;
-
+      time.setMonth(time.getUTCMonth());
+      time.setDate(time.getUTCDate());
       if (roundedMinutes >= 60) {
         time.setHours(time.getUTCHours() + 1);
         roundedMinutes = 0;
@@ -32,6 +33,7 @@ const calendarApi = {
       }
       time.setMinutes(roundedMinutes);
       time.setHours(endHours);
+
       const formattedTime = time.toISOString().slice(0, 16);
       return formattedTime;
     };

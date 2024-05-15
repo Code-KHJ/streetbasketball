@@ -162,36 +162,70 @@ const GameList = () => {
           </div>
           <div className={styles.list}>
             <ul>
-              {gameList.map((item, index) => (
-                <li key={index} onClick={() => linkDetail(item.id)}>
-                  <div className={styles.tag}>
-                    {item.status === 'recruiting' ? (
-                      <span className={styles.recruiting}>모집중</span>
-                    ) : item.status === 'done' ? (
-                      <span className={styles.done}>모집마감</span>
-                    ) : (
-                      <span className={styles.closed}>모집종료</span>
-                    )}
-                    <span className={styles.versus}>{item.versus}</span>
-                  </div>
-                  <div className={styles.title}>{item.title}</div>
-                  <div className={styles.game_info}>
-                    <div className={styles.schedule}>
-                      {/* <img src="/images/schedule.png" alt="clock icon" /> */}
-                      {FormmatDate(item.schedule)}
+              {gameList
+                .filter((item) => item.status !== 'closed')
+                .map((item, index) => (
+                  <li key={index} onClick={() => linkDetail(item.id)}>
+                    <div className={styles.tag}>
+                      {item.status === 'recruiting' ? (
+                        <span className={styles.recruiting}>모집중</span>
+                      ) : item.status === 'done' ? (
+                        <span className={styles.done}>모집마감</span>
+                      ) : (
+                        <span className={styles.closed}>모집종료</span>
+                      )}
+                      <span className={styles.versus}>{item.versus}</span>
                     </div>
-                    <span style={{ margin: '0 10px' }}>|</span>
-                    <div className={styles.location}>
-                      {/* <img src="/images/location.png" alt="clock icon" /> */}
-                      {item.location.split(' ').slice(0, 2).join(' ')}{' '}
-                      {item.buildingname}
+                    <div className={styles.title}>{item.title}</div>
+                    <div className={styles.game_info}>
+                      <div className={styles.schedule}>
+                        {/* <img src="/images/schedule.png" alt="clock icon" /> */}
+                        {FormmatDate(item.schedule)}
+                      </div>
+                      <span style={{ margin: '0 10px' }}>|</span>
+                      <div className={styles.location}>
+                        {/* <img src="/images/location.png" alt="clock icon" /> */}
+                        {item.location.split(' ').slice(0, 2).join(' ')}{' '}
+                        {item.buildingname}
+                      </div>
                     </div>
-                  </div>
-                  <div className={styles.members}>
-                    {activePlayer(item.member.member, item.people)}
-                  </div>
-                </li>
-              ))}
+                    <div className={styles.members}>
+                      {activePlayer(item.member.member, item.people)}
+                    </div>
+                  </li>
+                ))}
+              {gameList
+                .filter((item) => item.status === 'closed')
+                .map((item, index) => (
+                  <li key={index} onClick={() => linkDetail(item.id)}>
+                    <div className={styles.tag}>
+                      {item.status === 'recruiting' ? (
+                        <span className={styles.recruiting}>모집중</span>
+                      ) : item.status === 'done' ? (
+                        <span className={styles.done}>모집마감</span>
+                      ) : (
+                        <span className={styles.closed}>모집종료</span>
+                      )}
+                      <span className={styles.versus}>{item.versus}</span>
+                    </div>
+                    <div className={styles.title}>{item.title}</div>
+                    <div className={styles.game_info}>
+                      <div className={styles.schedule}>
+                        {/* <img src="/images/schedule.png" alt="clock icon" /> */}
+                        {FormmatDate(item.schedule)}
+                      </div>
+                      <span style={{ margin: '0 10px' }}>|</span>
+                      <div className={styles.location}>
+                        {/* <img src="/images/location.png" alt="clock icon" /> */}
+                        {item.location.split(' ').slice(0, 2).join(' ')}{' '}
+                        {item.buildingname}
+                      </div>
+                    </div>
+                    <div className={styles.members}>
+                      {activePlayer(item.member.member, item.people)}
+                    </div>
+                  </li>
+                ))}
             </ul>
           </div>
           <Fab

@@ -275,7 +275,7 @@ const GameDetail = () => {
                 </div>
                 <div className={styles.game_info}>
                   <h1>매치 안내</h1>
-                  <div style={{ lineHeight: '20px' }}>{values.info}</div>
+                  <div>{values.info}</div>
                 </div>
                 <div className={styles.manner}>
                   <h1>이것은 꼭 지켜주세요</h1>
